@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专属生日惊喜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            font-family: 'Microsoft YaHei', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 40px;
+            max-width: 90%;
+            width: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff69b4;
+            animation: fall 5s linear infinite;
+        }
+        
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        h1 {
+            color: #e84393;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .photo-frame {
+            width: 200px;
+            height: 200px;
+            border: 5px solid #ffeaa7;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .photo:hover {
+            transform: scale(1.1);
+        }
+        
+        .message {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: #333;
+            margin: 20px 0;
+        }
+        
+        .btn {
+            background: #e84393;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(232, 67, 147, 0.3);
+        }
+        
+        .btn:hover {
+            background: #ff6b9c;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(232, 67, 147, 0.4);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .cake {
+            font-size: 3rem;
+            margin: 15px 0;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 彩色纸屑背景 -->
+    <div id="confetti-container"></div>
+    
+    <div class="container" id="main-container">
+        <h1>🎉 亲爱的<span id="name">唐瑭</span>，生日快乐！</h1>
+        
+        <div class="cake">🎂</div>
+        
+        <div class="photo-frame">
+            <img src="[https://pnx3.bmwca.cn/cLVw98]" alt="生日照片" class="photo" id="main-photo">
+        </div>
+        
+        <p class="message" id="main-message">
+            <br>
+            愿你的每一天都如今天般充满欢笑和幸福！<br>
+            所有的梦想都能实现，所有的希望都能如愿~
+        </p>
+        
+        <button class="btn" onclick="showSurprise()">点击开启惊喜</button>
+    </div>
+    
+    <div class="container hidden" id="surprise-container">
+        <h1>❤️ 专属祝福 ❤️</h1>
+        <div class="cake">🍰</div>
+        <p class="message" id="surprise-message">
+            [这里写你的特别祝福语，比如回忆某个特别时刻]<br>
+            感谢你一直以来的陪伴和支持！<br>
+            新的一岁，要继续闪闪发光哦~
+        </p>
+        <button class="btn" onclick="playMusic()">🎵 播放生日歌</button>
+        <div style="margin-top: 20px;">
+            <img src="[第二张照片URL]" alt="友情照片" style="max-width: 100%; border-radius: 10px;">
+        </div>
+    </div>
+    
+    <audio id="birthday-audio" preload="auto">
+        <source src="[https://awpe.bmwca.cn/gqAZWR]" type="audio/mp3">
+    </audio>
+
+    <script>
+        // 创建彩色纸屑
+        function createConfetti() {
+            const container = document.getElementById('confetti-container');
+            const colors = ['#ff69b4', '#ffdf6b', '#6bffb8', '#6b8cff'];
+            
+            for(let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 15 + 5 + 'px';
+                confetti.style.height = confetti.style.width;
+                container.appendChild(confetti);
+            }
+        }
+        
+        // 显示惊喜内容
+        function showSurprise() {
+            document.getElementById('main-container').classList.add('hidden');
+            document.getElementById('surprise-container').classList.remove('hidden');
+        }
+        
+        // 播放音乐
+        function playMusic() {
+            const audio = document.getElementById('birthday-audio');
+            const btn = event.currentTarget;
+            
+            if(audio.paused) {
+                audio.play();
+                btn.innerHTML = '⏸️ 暂停音乐';
+            } else {
+                audio.pause();
+                btn.innerHTML = '🎵 播放生日歌';
+            }
+        }
+        
+        // 初始化
+        window.onload = function() {
+            createConfetti();
+            
+            // 动态替换朋友名字
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name');
+            if(name) {
+                document.getElementById('name').textContent = name;
+            }
+        };
+    </script>
+</body>
+</html>
